@@ -16,18 +16,15 @@ const App = (props) => {
       <div className="App">
         <GlobalStyle />
         <Switch>
-          {props.isLoggedIn ? (
+          <Route path="/login" exact>
+            <Login />
+          </Route>
+          <Route path="/signup" exact>
+            <SignUp />
+          </Route>
+          <Route path="/" exact>
             <Home />
-          ) : (
-            <>
-              <Route path={["/", "/login"]} exact>
-                <Login />
-              </Route>
-              <Route path="/signup" exact>
-                <SignUp />
-              </Route>
-            </>
-          )}
+          </Route>
         </Switch>
       </div>
     </Router>

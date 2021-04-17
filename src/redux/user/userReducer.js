@@ -1,16 +1,15 @@
 import * as _ from "./userTypes";
 
 const initialState = {
-  loading: true,
+  loading: false,
   error: null,
 
+  isLoggedIn: false,
   currentUser: {
     username: null,
     passwordHash: null,
   },
   data: null,
-
-  isLoggedIn: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -30,11 +29,27 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
+        error: null,
+
+        isLoggedIn: true,
         currentUser: {
           username: action.payload.username,
           passwordHash: action.payload.passwordHash,
         },
         data: action.payload.data,
+      };
+    case _.LOGOUT:
+      return {
+        ...state,
+        loading: false,
+        error: null,
+
+        isLoggedIn: false,
+        currentUser: {
+          username: null,
+          passwordHash: null,
+        },
+        data: null,
       };
     default:
       return state;

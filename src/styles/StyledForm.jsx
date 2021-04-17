@@ -11,6 +11,7 @@ const StyledForm = styled.form`
 
   .logo {
     width: 20rem;
+    max-width: 70vw;
     margin-bottom: 1.5rem;
 
     img {
@@ -21,6 +22,7 @@ const StyledForm = styled.form`
   .form {
     /* height: 30rem; */
     width: 50rem;
+    max-width: 90vw;
 
     background: rgb(240, 240, 240);
     border-radius: 0.5rem;
@@ -28,6 +30,18 @@ const StyledForm = styled.form`
 
     padding: 2.5rem;
     box-sizing: border-box;
+
+    @media all and (max-width: 500px) {
+      & {
+        padding: 2.5rem 1rem;
+      }
+    }
+
+    @media all and (max-width: 400px) {
+      & {
+        padding: 2.5rem 0.5rem;
+      }
+    }
 
     display: flex;
     flex-direction: column;
@@ -43,6 +57,31 @@ const StyledForm = styled.form`
       padding: 1rem;
       box-sizing: border-box;
       width: 50%;
+
+      @media all and (max-width: 400px) {
+        & {
+          padding: 1rem 0.75rem;
+          margin-bottom: 1rem;
+        }
+      }
+
+      @media all and (max-width: 900px) {
+        & {
+          width: 60%;
+        }
+      }
+
+      @media all and (max-width: 700px) {
+        & {
+          width: 70%;
+        }
+      }
+
+      @media all and (max-width: 600px) {
+        & {
+          width: 100%;
+        }
+      }
 
       .form-field {
         margin-bottom: 1.5rem;
@@ -145,12 +184,23 @@ const StyledForm = styled.form`
     .bottom-links {
       .link {
         margin-bottom: 1rem;
+        text-align: center;
 
         a {
           text-decoration: none;
           color: #504f4f;
           font-weight: 500;
           transition: 0.25s;
+
+          span:first-child {
+            margin-right: 0.25rem;
+          }
+
+          @media all and (max-width: 400px) {
+            span:last-child {
+              display: block;
+            }
+          }
         }
 
         a:hover:not([disabled]),

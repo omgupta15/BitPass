@@ -10,8 +10,8 @@ import store from "./redux/store";
 // Local Storage
 import lStorage from "local-storage-json";
 
-if (!lStorage.get("data")) {
-  lStorage.set("data", []);
+if (!lStorage.get("database")) {
+  lStorage.set("database", []);
 }
 
 ReactDOM.render(
