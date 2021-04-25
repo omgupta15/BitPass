@@ -1,91 +1,99 @@
 import * as _ from "./userTypes";
-import lStorage from "local-storage-json";
 import CryptoJS from "../../utils/CryptoJS";
+import {
+  generateHash,
+  getUser,
+  getData,
+  getDecryptedData,
+  updateUser,
+} from "../../utils";
+import { v4 as uuidv4 } from "uuid";
 
-// const getUser = (username) => {
-//   let data = lStorage.get("database");
+export const checkUserLogin = (onSuccess, onFailure) => {
+  return (dispatch) => {
+    dispatch(startLoading());
 
-//   if (!Array.isArray(data)) {
-//     lStorage.set("database", []);
-//     data = [];
-//   }
+    const username = sessionStorage.getItem("username");
+    const passwordHash = sessionStorage.getItem("passwordHash");
 
-//   if (!data) {
-//     return { success: false, error: "not-found" };
-//   }
-
-//   for (let user of data) {
-//     if (
-//       user.username &&
-//       typeof user.username === "string" &&
-//       user.username === username
-//     ) {
-//       return { success: true, user };
-//     }
-//   }
-
-//   return { success: false, error: "not-found" };
-// };
-
-const getUser = (username) => {
-  try {
-    let database = lStorage.get("database");
-
-    if (!Array.isArray(database)) {
-      lStorage.set("database", []);
-      database = [];
-    }
-
-    if (!database) {
-      return { success: false, error: "not-found" };
-    }
-
-    for (let index = 0; index < database.length; index++) {
-      const user = database[index];
-      if (
-        user.username &&
-        typeof user.username === "string" &&
-        user.username === username
-      ) {
-        return { success: true, index, user };
-      }
-    }
-
-    return { success: false, error: "not-found" };
-  } catch (e) {
-    console.log("Error while getting user:", e);
-    return { success: false, error: "unknown-error" };
-  }
-};
-
-const updateUser = (username, passwordHash, dataToUpdate) => {
-  try {
-    const userResponse = getUser(username);
-
-    let database = lStorage.get("database");
-
-    const { encryptedText, verificationHash } = CryptoJS.encrypt(
-      JSON.stringify(dataToUpdate),
-      passwordHash
-    );
-    const userData = {
-      username,
-      data: encryptedText,
-      verificationHash,
+    const killSession = () => {
+      dispatch(stopLoading());
+      sessionStorage.removeItem("username");
+      sessionStorage.removeItem("passwordHash");
+      onFailure();
     };
 
-    if (!userResponse.success) {
-      database.push(userData);
-    } else {
-      database[userResponse.index] = userData;
+    if (!username || !passwordHash) {
+      return killSession();
     }
 
-    lStorage.set("database", database);
-    return { success: true };
-  } catch (e) {
-    console.log("Error while updating user:", e);
-    return { success: false, error: "unknown-error" };
-  }
+    const response = getDecryptedData(username, passwordHash);
+
+    if (!response.success) {
+      return killSession();
+    }
+
+    const decryptedData = response.data;
+    let data;
+
+    try {
+      data = JSON.parse(decryptedData);
+    } catch (e) {
+      return killSession();
+    }
+
+    dispatch(setUser(username, passwordHash, data));
+    onSuccess();
+    return;
+  };
+};
+
+export const loginUser = (
+  username,
+  password,
+  onLoginSuccess,
+  onLoginFailure
+) => {
+  return (dispatch) => {
+    dispatch(startLoading());
+
+    const passwordHash = generateHash(password);
+    const response = getDecryptedData(username, passwordHash);
+
+    if (!response.success) {
+      let error;
+
+      switch (response.error) {
+        case "not-found":
+          error = "not-found";
+          break;
+        case "decryption-failed":
+          error = "invalid-password";
+          break;
+        default:
+          error = "unknown-error";
+      }
+
+      dispatch(setError(error));
+      onLoginFailure(error);
+      return;
+    }
+
+    const decryptedData = response.data;
+    let data;
+
+    try {
+      data = JSON.parse(decryptedData);
+    } catch (e) {
+      dispatch(setError("unknown-error"));
+      onLoginFailure("unknown-error");
+      return;
+    }
+
+    dispatch(setUser(username, passwordHash, data));
+    onLoginSuccess();
+    return;
+  };
 };
 
 export const signUpUser = (
@@ -129,116 +137,169 @@ export const signUpUser = (
 
     dispatch(setUser(username, passwordHash, data));
     onSignUpSuccess();
-    return; // { success: true };
+    return;
   };
 };
 
-export const checkUserLogin = (onSuccess, onFailure) => {
+export const addPassword = (
+  username,
+  passwordHash,
+  passwordDetails,
+  onSuccess,
+  onFailure
+) => {
   return (dispatch) => {
     dispatch(startLoading());
 
-    const username = sessionStorage.getItem("username");
-    const passwordHash = sessionStorage.getItem("passwordHash");
+    const data = getData(username, passwordHash);
 
-    const killSession = () => {
-      dispatch(stopLoading());
-      sessionStorage.removeItem("username");
-      sessionStorage.removeItem("passwordHash");
-      onFailure();
+    const onError = () => {
+      const error = "unknown-error";
+      dispatch(setError(error));
+      onFailure(error);
     };
 
-    if (!username || !passwordHash) {
-      return killSession();
+    if (!data.success) {
+      return onError();
     }
 
-    const userResponse = getUser(username);
-    console.log("User Query Response:", userResponse);
+    const dataToAdd = {
+      id: uuidv4(),
+      details: {
+        title: passwordDetails.title,
+        websiteUrl: passwordDetails.websiteUrl || null,
+        username: passwordDetails.username || null,
+        email: passwordDetails.email || null,
+        password: passwordDetails.password || null,
+      },
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+    };
 
-    if (!userResponse.success) {
-      return killSession();
+    if (!Array.isArray(data.data.passwords)) {
+      return onError();
     }
 
-    const { data: encryptedData, verificationHash } = userResponse.user;
+    data.data.passwords.push(dataToAdd);
 
-    const decryptionResponse = CryptoJS.decrypt(
-      encryptedData,
-      passwordHash,
-      verificationHash
-    );
+    const userUpdateResponse = updateUser(username, passwordHash, data.data);
+    console.log("User update response:", userUpdateResponse);
 
-    if (!decryptionResponse.success) {
-      return killSession();
+    if (!userUpdateResponse.success) {
+      return onError();
     }
 
-    const decryptedData = decryptionResponse.data;
-    let data;
-
-    try {
-      data = JSON.parse(decryptedData);
-    } catch (e) {
-      return killSession();
-    }
-
-    dispatch(setUser(username, passwordHash, data));
+    dispatch(setUser(username, passwordHash, data.data));
     onSuccess();
     return;
   };
 };
 
-export const loginUser = (
+export const updatePassword = (
   username,
-  password,
-  onLoginSuccess,
-  onLoginFailure
+  passwordHash,
+  passwordDetails,
+  onSuccess,
+  onFailure
 ) => {
   return (dispatch) => {
     dispatch(startLoading());
 
-    const userResponse = getUser(username);
+    const data = getData(username, passwordHash);
 
-    if (!userResponse.success) {
-      if (userResponse.error === "not-found") {
-        dispatch(setError("not-found"));
-        onLoginFailure("not-found");
-        return;
+    const onError = () => {
+      const error = "unknown-error";
+      dispatch(setError(error));
+      onFailure(error);
+    };
+
+    if (!data.success) {
+      return onError();
+    }
+
+    const dataToEdit = {
+      details: {
+        title: passwordDetails.title,
+        websiteUrl: passwordDetails.websiteUrl || null,
+        username: passwordDetails.username || null,
+        email: passwordDetails.email || null,
+        password: passwordDetails.password || null,
+      },
+      updatedAt: Date.now(),
+    };
+
+    console.log(dataToEdit);
+
+    if (!Array.isArray(data.data.passwords)) {
+      return onError();
+    }
+
+    for (let i = 0; i < data.data.passwords.length; i++) {
+      if (data.data.passwords[i].id === passwordDetails.passwordId) {
+        data.data.passwords[i] = {
+          ...data.data.passwords[i],
+          ...dataToEdit,
+        };
+        break;
       }
-
-      dispatch(setError("unknown-error"));
-      onLoginFailure("unknown-error");
-      return;
     }
 
-    const { data: encryptedData, verificationHash } = userResponse.user;
-    const passwordHash = CryptoJS.generateSHA512(password);
+    const userUpdateResponse = updateUser(username, passwordHash, data.data);
+    console.log("User update response:", userUpdateResponse);
 
-    const decryptionResponse = CryptoJS.decrypt(
-      encryptedData,
-      passwordHash,
-      verificationHash
-    );
-
-    if (!decryptionResponse.success) {
-      // return { sucess: false, error: "invalid-password" };
-      dispatch(setError("invalid-password"));
-      onLoginFailure("invalid-password");
-      return;
+    if (!userUpdateResponse.success) {
+      return onError();
     }
 
-    const decryptedData = decryptionResponse.data;
-    let data;
+    dispatch(setUser(username, passwordHash, data.data));
+    onSuccess(true);
+    return;
+  };
+};
 
-    try {
-      data = JSON.parse(decryptedData);
-    } catch (e) {
-      // return { success: false, error: "unknown-error" };
-      dispatch(setError("unknown-error"));
-      onLoginFailure("unknown-error");
-      return;
+export const deletePassword = (
+  username,
+  passwordHash,
+  passwordId,
+  onSuccess,
+  onFailure
+) => {
+  return (dispatch) => {
+    dispatch(startLoading());
+
+    const data = getData(username, passwordHash);
+
+    const onError = () => {
+      const error = "unknown-error";
+      dispatch(setError(error));
+      onFailure(error);
+    };
+
+    if (!data.success) {
+      return onError();
     }
 
-    dispatch(setUser(username, passwordHash, data));
-    onLoginSuccess();
-    return; // { success: true };
+    if (!Array.isArray(data.data.passwords)) {
+      return onError();
+    }
+
+    for (let i = 0; i < data.data.passwords.length; i++) {
+      if (data.data.passwords[i].id === passwordId) {
+        data.data.passwords.splice(i, 1);
+        break;
+      }
+    }
+
+    const userUpdateResponse = updateUser(username, passwordHash, data.data);
+    console.log("User update response:", userUpdateResponse);
+
+    if (!userUpdateResponse.success) {
+      return onError();
+    }
+
+    dispatch(setUser(username, passwordHash, data.data));
+    onSuccess();
+    return;
   };
 };
 

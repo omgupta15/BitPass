@@ -123,7 +123,7 @@ const StyledForm = styled.form`
           background: linear-gradient(90deg, #6f00ff, #11ff60);
           background-size: 250% 250%;
 
-          animation: BackgroundAnimation 2s ease infinite alternate;
+          animation: ButtonBackgroundAnimation 2s ease infinite alternate;
 
           transition: all 0.3s ease-in-out;
 
@@ -145,13 +145,13 @@ const StyledForm = styled.form`
 
             span {
               margin-right: 1rem;
-              animation: MarginAnimation 1s ease infinite alternate;
+              animation: ButtonMarginAnimation 1s ease infinite alternate;
             }
             svg {
               font-size: 1.75rem;
             }
 
-            @keyframes MarginAnimation {
+            @keyframes ButtonMarginAnimation {
               0% {
                 margin-right: 0.3rem;
               }
@@ -163,10 +163,10 @@ const StyledForm = styled.form`
               }
             }
 
-            animation: BackgroundAnimation 1s ease infinite alternate;
+            animation: ButtonBackgroundAnimation 1s ease infinite alternate;
           }
 
-          @keyframes BackgroundAnimation {
+          @keyframes ButtonBackgroundAnimation {
             0% {
               background-position: 0% 49%;
             }

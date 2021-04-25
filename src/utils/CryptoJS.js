@@ -53,13 +53,13 @@ class CryptoJS0 {
       );
 
       if (verificationHash !== newVerificationHash) {
-        return { success: false };
+        return { success: false, error: "decryption-failed" };
       }
 
       return { success: true, data: decryptedText };
     } catch (e) {
       console.log("Error while decrypting:", e);
-      return { success: false };
+      return { success: false, error: "decryption-failed" };
     }
   };
 }

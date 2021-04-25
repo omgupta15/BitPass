@@ -22,7 +22,9 @@ const GlobalStyle = createGlobalStyle`
     background: linear-gradient(135deg, #6f00ff, #11ff60);
     background-size: 250% 250%;
 
+    /*
     animation: BackgroundAnimation 25s ease infinite;
+    */
   }
 
   @keyframes BackgroundAnimation {
@@ -35,6 +37,11 @@ const GlobalStyle = createGlobalStyle`
     100% {
       background-position: 0% 49%;
     }
+  }
+
+  .MuiListItemIcon-root {
+    min-width: 45px !important;
+    margin-left: 5px !important;
   }
 `;
 

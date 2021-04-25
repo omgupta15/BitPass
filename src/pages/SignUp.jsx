@@ -225,7 +225,7 @@ const SignUp = (props) => {
                   <>
                     <CircularProgress
                       size="1.25rem"
-                      thickness="5"
+                      thickness={5}
                       style={{ color: "white" }}
                     />
                     <span>Please wait</span>
