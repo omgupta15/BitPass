@@ -128,6 +128,26 @@ const StyledForm = styled.form`
       .form-field {
         margin-bottom: 1.5rem;
         width: 100%;
+        text-align: center;
+
+        .form-field-file-input {
+          box-sizing: border-box;
+          border: 1px solid rgba(100, 100, 100, 0.5);
+          padding: 12px 14px;
+          border-radius: 4px;
+        }
+
+        .form-field-file-input:hover {
+          border-color: black;
+        }
+
+        .form-field-file-input.error {
+          border-color: #f44336;
+        }
+
+        .helper-text.error {
+          color: #f44336;
+        }
 
         .form-field-input {
           width: 100%;

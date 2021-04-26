@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { connect } from "react-redux";
 import { SnackbarProvider } from "notistack";
@@ -14,6 +14,7 @@ import Backup from "./pages/Backup";
 import DeleteAccount from "./pages/DeleteAccount";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
+import Restore from "./pages/Restore";
 import Logout from "./pages/Logout";
 
 // Components
@@ -31,6 +32,9 @@ const App = (props) => {
             </Route>
             <Route path="/signup" exact>
               <SignUp />
+            </Route>
+            <Route path="/restore" exact>
+              <Restore />
             </Route>
             {props.isLoggedIn ? (
               <>

@@ -71,6 +71,39 @@ export const getDecryptedData = (username, passwordHash) => {
   return decryptionResponse;
 };
 
+export const decryptBackupData = (
+  encryptedData,
+  verificationHash,
+  password
+) => {
+  const passwordHash = generateHash(password);
+
+  const decryptionResponse = CryptoJS.decrypt(
+    encryptedData,
+    passwordHash,
+    verificationHash
+  );
+
+  if (!decryptionResponse.success) {
+    return decryptionResponse;
+  }
+
+  try {
+    decryptionResponse.data = JSON.parse(decryptionResponse.data);
+  } catch (e) {
+    return { success: false, error: "invalid-json" };
+  }
+
+  if (
+    !Array.isArray(decryptionResponse.data.passwords) ||
+    !Array.isArray(decryptionResponse.data.notes)
+  ) {
+    return { success: false, error: "invalid-json" };
+  }
+
+  return decryptionResponse;
+};
+
 export const updateUser = (username, passwordHash, dataToUpdate) => {
   try {
     const userResponse = getUser(username);

@@ -223,13 +223,48 @@ export const backupAccount = (username, onSuccess, onFailure) => {
       v: verificationHash,
     };
 
-    const blob = new Blob([JSON.stringify(backupData)], {
+    const blob = new Blob([btoa(JSON.stringify(backupData))], {
       type: "application/json",
     });
     const url = URL.createObjectURL(blob);
 
     dispatch(stopLoading());
     onSuccess(fileName, url);
+    return;
+  };
+};
+
+export const restoreUser = (username, password, data, onSuccess, onFailure) => {
+  return (dispatch) => {
+    dispatch(startLoading());
+
+    const userResponse = getUser(username);
+
+    if (userResponse.success) {
+      dispatch(setError("already-exists"));
+      onFailure("already-exists");
+      return;
+    }
+
+    if (userResponse.error !== "not-found") {
+      dispatch(setError("unknown-error"));
+      onFailure("unknown-error");
+      return;
+    }
+
+    const passwordHash = CryptoJS.generateSHA512(password);
+
+    const userUpdateResponse = updateUser(username, passwordHash, data);
+    console.log("User update response:", userUpdateResponse);
+
+    if (!userUpdateResponse.success) {
+      dispatch(setError("unknown-error"));
+      onFailure("unknown-error");
+      return;
+    }
+
+    dispatch(setUser(username, passwordHash, data));
+    onSuccess();
     return;
   };
 };

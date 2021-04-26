@@ -1,8 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import styled from "styled-components";
 import { useSnackbar } from "notistack";
+
+// Actions
+import {
+  addPassword,
+  deletePassword,
+  updatePassword,
+} from "../redux/user/userActions";
 
 // Components
 import EditPasswordModal from "../components/EditPasswordModal";
@@ -31,11 +38,6 @@ import {
   AccountCircleRounded as AccountCircleRoundedIcon,
   Delete as DeleteIcon,
 } from "@material-ui/icons";
-import {
-  addPassword,
-  deletePassword,
-  updatePassword,
-} from "../redux/user/userActions";
 
 const Home = (props) => {
   const history = useHistory();
@@ -223,8 +225,8 @@ const Home = (props) => {
           )}
 
           <div className="cards">
-            {props.data.passwords.map(({ id, details }) => (
-              <div className="card" key={id}>
+            {props.data.passwords.map(({ id, details }, index) => (
+              <div className="card" key={id || index + 1}>
                 <div className="title">
                   <span>{details.title}</span>&nbsp;
                   {details.websiteUrl && (
