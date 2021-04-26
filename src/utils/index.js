@@ -8,8 +8,8 @@ export const getUser = (username) => {
     let database = lStorage.get("database");
 
     if (!Array.isArray(database)) {
-      lStorage.set("database", []);
       database = [];
+      lStorage.set("database", database);
     }
 
     if (database.length <= 0) {
@@ -97,6 +97,35 @@ export const updateUser = (username, passwordHash, dataToUpdate) => {
     return { success: true };
   } catch (e) {
     console.log("Error while updating user:", e);
+    return { success: false, error: "unknown-error" };
+  }
+};
+
+export const deleteUser = (username) => {
+  try {
+    let database = lStorage.get("database");
+
+    if (!Array.isArray(database)) {
+      database = [];
+      lStorage.set("database", database);
+    }
+
+    for (let index = 0; index < database.length; index++) {
+      const user = database[index];
+      if (
+        user.username &&
+        typeof user.username === "string" &&
+        user.username === username
+      ) {
+        database.splice(index, 1);
+        lStorage.set("database", database);
+        return { success: true };
+      }
+    }
+
+    return { success: false, error: "not-found" };
+  } catch (e) {
+    console.log("Error while deleting user:", e);
     return { success: false, error: "unknown-error" };
   }
 };

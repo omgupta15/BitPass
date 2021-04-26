@@ -6,6 +6,7 @@ import {
   getData,
   getDecryptedData,
   updateUser,
+  deleteUser,
 } from "../../utils";
 import { v4 as uuidv4 } from "uuid";
 
@@ -96,12 +97,7 @@ export const loginUser = (
   };
 };
 
-export const signUpUser = (
-  username,
-  password,
-  onSignUpSuccess,
-  onSignUpFailure
-) => {
+export const signUpUser = (username, password, onSuccess, onFailure) => {
   return (dispatch) => {
     dispatch(startLoading());
 
@@ -109,13 +105,13 @@ export const signUpUser = (
 
     if (userResponse.success) {
       dispatch(setError("already-exists"));
-      onSignUpFailure("already-exists");
+      onFailure("already-exists");
       return;
     }
 
     if (userResponse.error !== "not-found") {
       dispatch(setError("unknown-error"));
-      onSignUpFailure("unknown-error");
+      onFailure("unknown-error");
       return;
     }
 
@@ -131,12 +127,109 @@ export const signUpUser = (
 
     if (!userUpdateResponse.success) {
       dispatch(setError("unknown-error"));
-      onSignUpFailure("unknown-error");
+      onFailure("unknown-error");
       return;
     }
 
     dispatch(setUser(username, passwordHash, data));
-    onSignUpSuccess();
+    onSuccess();
+    return;
+  };
+};
+
+export const changePassword = (
+  username,
+  currentPasswordHash,
+  newPassword,
+  onSuccess,
+  onFailure
+) => {
+  return (dispatch) => {
+    dispatch(startLoading());
+
+    const data = getData(username, currentPasswordHash);
+
+    const onError = () => {
+      const error = "unknown-error";
+      dispatch(setError(error));
+      onFailure(error);
+    };
+
+    if (!data.success) {
+      return onError();
+    }
+
+    const newPasswordHash = generateHash(newPassword);
+
+    const userUpdateResponse = updateUser(username, newPasswordHash, data.data);
+    console.log("User update response:", userUpdateResponse);
+
+    if (!userUpdateResponse.success) {
+      return onError();
+    }
+
+    // dispatch(logout()); // logging out with on success event on modal close
+    dispatch(stopLoading());
+    onSuccess();
+    return;
+  };
+};
+
+export const deleteAccount = (username, onSuccess, onFailure) => {
+  return (dispatch) => {
+    dispatch(startLoading());
+
+    const response = deleteUser(username);
+    console.log("User update response:", response);
+
+    const onError = () => {
+      const error = "unknown-error";
+      dispatch(setError(error));
+      onFailure(error);
+    };
+
+    if (!response.success) {
+      return onError();
+    }
+
+    // dispatch(logout()); // logging out with on success event on modal close
+    dispatch(stopLoading());
+    onSuccess();
+    return;
+  };
+};
+
+export const backupAccount = (username, onSuccess, onFailure) => {
+  return (dispatch) => {
+    dispatch(startLoading());
+
+    const response = getUser(username);
+
+    const onError = () => {
+      const error = "unknown-error";
+      dispatch(setError(error));
+      onFailure(error);
+    };
+
+    if (!response.success) {
+      return onError();
+    }
+
+    const { data: encryptedData, verificationHash } = response.user;
+
+    const fileName = `backup_${username} - ${new Date().toDateString()}.bitpass`;
+    const backupData = {
+      d: encryptedData,
+      v: verificationHash,
+    };
+
+    const blob = new Blob([JSON.stringify(backupData)], {
+      type: "application/json",
+    });
+    const url = URL.createObjectURL(blob);
+
+    dispatch(stopLoading());
+    onSuccess(fileName, url);
     return;
   };
 };
@@ -151,7 +244,7 @@ export const addPassword = (
   return (dispatch) => {
     dispatch(startLoading());
 
-    const data = getData(username, passwordHash);
+    const response = getData(username, passwordHash);
 
     const onError = () => {
       const error = "unknown-error";
@@ -159,7 +252,7 @@ export const addPassword = (
       onFailure(error);
     };
 
-    if (!data.success) {
+    if (!response.success) {
       return onError();
     }
 
@@ -176,20 +269,24 @@ export const addPassword = (
       updatedAt: Date.now(),
     };
 
-    if (!Array.isArray(data.data.passwords)) {
+    if (!Array.isArray(response.data.passwords)) {
       return onError();
     }
 
-    data.data.passwords.push(dataToAdd);
+    response.data.passwords.push(dataToAdd);
 
-    const userUpdateResponse = updateUser(username, passwordHash, data.data);
+    const userUpdateResponse = updateUser(
+      username,
+      passwordHash,
+      response.data
+    );
     console.log("User update response:", userUpdateResponse);
 
     if (!userUpdateResponse.success) {
       return onError();
     }
 
-    dispatch(setUser(username, passwordHash, data.data));
+    dispatch(setUser(username, passwordHash, response.data));
     onSuccess();
     return;
   };

@@ -8,12 +8,17 @@ import { useSnackbar } from "notistack";
 import EditPasswordModal from "../components/EditPasswordModal";
 
 // Material UI
-import { Button, TextField, InputAdornment, Tooltip } from "@material-ui/core";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  TextField,
+  InputAdornment,
+  Tooltip,
+} from "@material-ui/core";
 
 // Icons
 import {
@@ -92,8 +97,8 @@ const Home = (props) => {
         password,
       };
       props.updatePassword(
-        props.currectUser.username,
-        props.currectUser.passwordHash,
+        props.currentUser.username,
+        props.currentUser.passwordHash,
         passwordDetails,
         onPasswordUpdateSuccess,
         onPasswordUpdateFailure
@@ -103,8 +108,8 @@ const Home = (props) => {
 
     const passwordDetails = { title, websiteUrl, email, username, password };
     props.addPassword(
-      props.currectUser.username,
-      props.currectUser.passwordHash,
+      props.currentUser.username,
+      props.currentUser.passwordHash,
       passwordDetails,
       onPasswordUpdateSuccess,
       onPasswordUpdateFailure
@@ -137,8 +142,8 @@ const Home = (props) => {
     if (!passwordIdToDelete) return;
 
     props.deletePassword(
-      props.currectUser.username,
-      props.currectUser.passwordHash,
+      props.currentUser.username,
+      props.currentUser.passwordHash,
       passwordIdToDelete,
       onPasswordDeleteSuccess,
       onPasswordDeleteFailure
@@ -482,8 +487,10 @@ const StyledPasswords = styled.div`
 
           .delete-button {
             color: #ff1212;
+            border-color: rgba(255, 18, 18, 0.4);
 
             &:hover {
+              background-color: rgba(255, 18, 18, 0.05);
               border-color: #ff1212;
             }
           }
@@ -579,7 +586,7 @@ const StyledPasswords = styled.div`
 const mapStateToProps = (state) => {
   return {
     isLoggedIn: state.user.isLoggedIn,
-    currectUser: {
+    currentUser: {
       username: state.user.currentUser.username,
       passwordHash: state.user.currentUser.passwordHash,
     },

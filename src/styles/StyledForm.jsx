@@ -31,9 +31,44 @@ const StyledForm = styled.form`
     padding: 2.5rem;
     box-sizing: border-box;
 
+    .top-link {
+      /* margin-top: 0.75rem; */
+      width: 100%;
+      margin-bottom: 1rem;
+      box-sizing: border-box;
+      text-align: left;
+      /* position: absolute; */
+
+      a {
+        text-decoration: none;
+        color: #504f4f;
+        font-weight: 500;
+        transition: 0.25s;
+
+        span:first-child {
+          margin-right: 0.25rem;
+        }
+
+        @media all and (max-width: 400px) {
+          span:last-child {
+            display: block;
+          }
+        }
+      }
+
+      a:hover:not([disabled]),
+      a:focus:not([disabled]) {
+        color: #606060;
+        /* text-decoration: underline; */
+      }
+    }
+
     @media all and (max-width: 500px) {
       & {
         padding: 2.5rem 1rem;
+      }
+      .top-link {
+        padding-left: 0.5rem;
       }
     }
 
@@ -48,13 +83,14 @@ const StyledForm = styled.form`
     align-items: center;
 
     .title {
-      font-size: 2.5rem;
+      font-size: 2.1rem;
       font-weight: 500;
     }
 
     .form-fields-container {
       margin: 2rem;
       padding: 1rem;
+      padding-bottom: 0rem;
       box-sizing: border-box;
       width: 50%;
 
@@ -82,6 +118,12 @@ const StyledForm = styled.form`
           width: 100%;
         }
       }
+
+      /* .text-field {
+        margin-bottom: 1.75rem;
+        font-size: 1.2rem;
+        text-align: center;
+      } */
 
       .form-field {
         margin-bottom: 1.5rem;
@@ -183,7 +225,7 @@ const StyledForm = styled.form`
 
     .bottom-links {
       .link {
-        margin-bottom: 1rem;
+        margin-bottom: 0.5rem;
         text-align: center;
 
         a {

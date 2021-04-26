@@ -2,27 +2,31 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 
 // Material UI
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import IconButton from "@material-ui/core/IconButton";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
-import SwipeableDrawer from "@material-ui/core/SwipeableDrawer";
-import List from "@material-ui/core/List";
-import Divider from "@material-ui/core/Divider";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
+import {
+  AppBar,
+  Toolbar,
+  IconButton,
+  Menu,
+  MenuItem,
+  SwipeableDrawer,
+  List,
+  Divider,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+} from "@material-ui/core";
 
 // Icons
-import MenuIcon from "@material-ui/icons/Menu";
-import AccountCircle from "@material-ui/icons/AccountCircle";
-import VpnKeyIcon from "@material-ui/icons/VpnKey";
-import LockRoundedIcon from "@material-ui/icons/LockRounded";
-import NoteAddOutlinedIcon from "@material-ui/icons/NoteAddOutlined";
-import AccountCircleRoundedIcon from "@material-ui/icons/AccountCircleRounded";
-import SettingsBackupRestoreRoundedIcon from "@material-ui/icons/SettingsBackupRestoreRounded";
-import ExitToAppRoundedIcon from "@material-ui/icons/ExitToAppRounded";
+import {
+  Menu as MenuIcon,
+  VpnKey as VpnKeyIcon,
+  LockRounded as LockRoundedIcon,
+  AccountCircle as AccountCircleIcon,
+  NoteAddOutlined as NoteAddOutlinedIcon,
+  ExitToAppRounded as ExitToAppRoundedIcon,
+  AccountCircleRounded as AccountCircleRoundedIcon,
+  SettingsBackupRestoreRounded as SettingsBackupRestoreRoundedIcon,
+} from "@material-ui/icons";
 
 const NavBar = (props) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -98,7 +102,7 @@ const NavBar = (props) => {
                 color="inherit"
                 style={colorStyle}
               >
-                <AccountCircle />
+                <AccountCircleIcon />
               </IconButton>
               <Menu
                 id="menu-appbar"
@@ -176,7 +180,7 @@ const NavBar = (props) => {
                 <ListItemIcon>
                   <SettingsBackupRestoreRoundedIcon />
                 </ListItemIcon>
-                <ListItemText primary="Backup Passwords" />
+                <ListItemText primary="Backup Account" />
               </ListItem>
               <ListItem button onClick={openLink("/logout")}>
                 <ListItemIcon>

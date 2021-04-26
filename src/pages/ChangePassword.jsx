@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { connect } from "react-redux";
+import { generateHash } from "../utils";
 
 // Redux Actions
-import { signUpUser, checkUserLogin } from "../redux/user/userActions";
+import { changePassword } from "../redux/user/userActions";
 
 // Components
 import AlertModal from "../components/AlertModal";
@@ -16,28 +17,24 @@ import {
   Visibility as VisibilityIcon,
   LockOutlined as LockOutlinedIcon,
   VisibilityOff as VisibilityOffIcon,
+  SecurityRounded as SecurityRoundedIcon,
+  ArrowBackRounded as ArrowBackRoundedIcon,
   ArrowForwardRounded as ArrowForwardRoundedIcon,
-  AccountCircleRounded as AccountCircleRoundedIcon,
 } from "@material-ui/icons";
 
 // Styles
 import StyledForm from "../styles/StyledForm";
 
-const SignUp = (props) => {
+const ChangePassword = (props) => {
   const [loading, setLoading] = useState(true);
   const history = useHistory();
 
   useEffect(() => {
-    // setLoading(false);
+    setLoading(false);
 
-    if (props.isLoggedIn) {
-      history.push("/");
+    if (!props.isLoggedIn) {
+      history.push("/login");
     }
-
-    props.checkUserLogin(
-      () => onSignUpSuccess(true),
-      () => setLoading(false)
-    );
   }, []);
 
   // Modal for alert
@@ -54,31 +51,26 @@ const SignUp = (props) => {
 
   const handleModalClose = () => {
     setModalOpen(false);
-    console.log("Modal Closed!");
-
-    if (props.isLoggedIn) {
-      history.push("/");
-    }
+    history.push("/logout");
   };
 
   // User Input
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
 
-  const handleUsernameChange = (e) => {
-    // Don't allow any other characters than a-z, A-Z & 0-9
-    setUsername(e.target.value.replace(/[^a-zA-Z0-9]/g, "").slice(0, 50));
+  const handleCurrentPasswordChange = (e) => {
+    setCurrentPassword(e.target.value.slice(0, 250));
 
-    if (usernameError) {
-      setUsernameError(null);
+    if (currentPasswordError) {
+      setCurrentPasswordError(null);
     }
   };
 
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value.slice(0, 250));
+  const handleNewPasswordChange = (e) => {
+    setNewPassword(e.target.value.slice(0, 250));
 
-    if (passwordError) {
-      setPasswordError(null);
+    if (newPasswordError) {
+      setNewPasswordError(null);
     }
   };
 
@@ -88,65 +80,72 @@ const SignUp = (props) => {
     setIsPasswordVisible((prevState) => !prevState);
   };
 
-  const [usernameError, setUsernameError] = useState(null);
-  const [passwordError, setPasswordError] = useState(null);
+  // Errors
+  const [currentPasswordError, setCurrentPasswordError] = useState(null);
+  const [newPasswordError, setNewPasswordError] = useState(null);
 
   const onFormSubmit = (event) => {
     event.preventDefault();
 
     setIsPasswordVisible(false);
 
-    if (!username || !password) {
-      if (!username) {
-        setUsernameError("Create a new username.");
+    if (!currentPassword || !newPassword) {
+      if (!currentPassword) {
+        setCurrentPasswordError("Enter your current password.");
       }
 
-      if (!password) {
-        setPasswordError("Create a password.");
+      if (!newPassword) {
+        setNewPasswordError("Create a new password.");
       }
 
       return;
     }
 
-    if (password.length < 8) {
-      setPasswordError("Password must contain at least 8 characters.");
+    if (currentPassword.length < 8) {
+      setCurrentPasswordError("Invalid password entered.");
+      return;
+    }
+
+    if (newPassword.length < 8) {
+      setNewPasswordError("Password must contain at least 8 characters.");
+      return;
+    }
+
+    if (generateHash(currentPassword) !== props.currentUser.passwordHash) {
+      setCurrentPasswordError("Invalid password entered.");
       return;
     }
 
     setLoading(true);
-    props.signUpUser(username, password, onSignUpSuccess, onSignUpFailure);
-  };
-
-  const onSignUpSuccess = (callbackFromSessionStorageCheck) => {
-    setLoading(false);
-    if (callbackFromSessionStorageCheck) {
-      history.push("/");
-    } else {
-      openModal(
-        "Sign Up Successful",
-        "Your account has been successfully created! Remember that all your data is stored locally in an encrypted format and hence, there's no way to recover your password incase your forget it."
-      );
-      console.log("Modal opened!");
-    }
-  };
-
-  const onSignUpFailure = (error) => {
-    setLoading(false);
-
-    if (error === "already-exists") {
-      setUsernameError("Username already exists.");
-      return;
-    }
-
-    openModal(
-      "Sign Up Failed",
-      "An unknown error occurred while signing you up! Please try again."
+    props.changePassword(
+      props.currentUser.username,
+      props.currentUser.passwordHash,
+      newPassword,
+      onSuccess,
+      onFailure
     );
   };
 
-  // if (props.isLoggedIn) {
-  //   return <>{history.push("/")}</>;
-  // }
+  const onSuccess = () => {
+    setLoading(false);
+    openModal(
+      "Password changed successfully",
+      "Your password has been successfully changed! You need to re-login now."
+    );
+  };
+
+  const onFailure = (error) => {
+    setLoading(false);
+
+    openModal(
+      "Error while updating the password",
+      "An unknown error occurred while updating the password! Please try again."
+    );
+  };
+
+  if (!props.isLoggedIn) {
+    return <>{history.push("/login")}</>;
+  }
 
   return (
     <>
@@ -155,38 +154,53 @@ const SignUp = (props) => {
           <img src="/logo-text.png" alt="BitPass" />
         </div>
         <div className="form">
-          <div className="title">Sign Up</div>
-
+          {/* <div className="top-link">
+            <Link
+              onClick={(e) => {
+                e.preventDefault();
+                history.goBack();
+              }}
+            >
+              <span style={{ display: "flex" }}>
+                <ArrowBackRoundedIcon
+                  style={{ fontSize: "1.1rem", marginRight: "0.2rem" }}
+                />
+                Back
+              </span>
+            </Link>
+          </div> */}
+          <div className="title">Change Password</div>
           <div className="form-fields-container">
             <div className="form-field">
               <TextField
-                label="Username"
+                label="Current Password"
                 className="form-field-input"
+                type="password"
                 variant="outlined"
-                placeholder="Create a new username"
+                placeholder="Enter your current password"
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
-                      <AccountCircleRoundedIcon />
+                      <SecurityRoundedIcon />
                     </InputAdornment>
                   ),
                 }}
-                value={username}
-                onChange={handleUsernameChange}
+                value={currentPassword}
+                onChange={handleCurrentPasswordChange}
                 maxLength={50}
                 disabled={loading}
-                {...(usernameError
-                  ? { error: true, helperText: usernameError }
+                {...(currentPasswordError
+                  ? { error: true, helperText: currentPasswordError }
                   : {})}
               />
             </div>
             <div className="form-field">
               <TextField
-                label="Password"
+                label="New Password"
                 className="form-field-input"
                 type={isPasswordVisible ? "text" : "password"}
                 variant="outlined"
-                placeholder="Create a password"
+                placeholder="Create a new password"
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
@@ -209,13 +223,13 @@ const SignUp = (props) => {
                     </InputAdornment>
                   ),
                 }}
-                value={password}
-                onChange={handlePasswordChange}
+                value={newPassword}
+                onChange={handleNewPasswordChange}
                 minLength={8}
                 maxLength={250}
                 disabled={loading}
-                {...(passwordError
-                  ? { error: true, helperText: passwordError }
+                {...(newPasswordError
+                  ? { error: true, helperText: newPasswordError }
                   : {})}
               />
             </div>
@@ -243,19 +257,28 @@ const SignUp = (props) => {
               </button>
             </div>
           </div>
-
           <div className="bottom-links">
             <div className="link">
-              <Link to="/login">
-                <span>Have an account already?</span>
-                <span>Login here!</span>
+              <Link
+                to="/profile"
+                onClick={(e) => {
+                  e.preventDefault();
+                  history.goBack();
+                }}
+              >
+                <span style={{ display: "flex" }}>
+                  <ArrowBackRoundedIcon
+                    style={{ fontSize: "1.1rem", marginRight: "0.2rem" }}
+                  />
+                  Back
+                </span>
               </Link>
             </div>
-            <div className="link">
-              <Link to="/restore">
-                <span>Restore Account</span>
+            {/* <div className="link">
+              <Link to="/logout">
+                <span>Logout</span>
               </Link>
-            </div>
+            </div> */}
           </div>
         </div>
       </StyledForm>
@@ -273,21 +296,18 @@ const SignUp = (props) => {
 const mapStateToProps = (state) => {
   return {
     loading: state.user.loading,
-    error: state.user.error,
     isLoggedIn: state.user.isLoggedIn,
+    currentUser: {
+      username: state.user.currentUser.username,
+      passwordHash: state.user.currentUser.passwordHash,
+    },
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    signUpUser: (username, password, onSignUpSuccess, onSignUpFailure) =>
-      dispatch(
-        signUpUser(username, password, onSignUpSuccess, onSignUpFailure)
-      ),
-
-    checkUserLogin: (onSuccess, onFailure) =>
-      dispatch(checkUserLogin(onSuccess, onFailure)),
+    changePassword: (...args) => dispatch(changePassword(...args)),
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
+export default connect(mapStateToProps, mapDispatchToProps)(ChangePassword);

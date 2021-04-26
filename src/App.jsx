@@ -9,6 +9,9 @@ import GlobalStyle from "./styles/GlobalStyle";
 // Pages
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
+import ChangePassword from "./pages/ChangePassword";
+import Backup from "./pages/Backup";
+import DeleteAccount from "./pages/DeleteAccount";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import Logout from "./pages/Logout";
@@ -31,23 +34,40 @@ const App = (props) => {
             </Route>
             {props.isLoggedIn ? (
               <>
-                <SideBar />
-                <div
-                  style={{
-                    minHeight: "calc(100vh - 64px)",
-                    backgroundColor: "white",
-                  }}
-                >
-                  <Route path="/" exact>
+                <Route path="/" exact>
+                  <SideBar />
+                  <div
+                    style={{
+                      minHeight: "calc(100vh - 64px)",
+                      backgroundColor: "white",
+                    }}
+                  >
                     <Home />
-                  </Route>
-                  <Route path="/profile" exact>
+                  </div>
+                </Route>
+                <Route path="/profile" exact>
+                  <SideBar />
+                  <div
+                    style={{
+                      minHeight: "calc(100vh - 64px)",
+                      backgroundColor: "white",
+                    }}
+                  >
                     <Profile />
-                  </Route>
-                  <Route path="/logout" exact>
-                    <Logout />
-                  </Route>
-                </div>
+                  </div>
+                </Route>
+                <Route path="/backup" exact>
+                  <Backup />
+                </Route>
+                <Route path="/change-password" exact>
+                  <ChangePassword />
+                </Route>
+                <Route path="/delete-account" exact>
+                  <DeleteAccount />
+                </Route>
+                <Route path="/logout" exact>
+                  <Logout />
+                </Route>
               </>
             ) : (
               <Route path="/">

@@ -1,14 +1,18 @@
 import React from "react";
 
 // Material UI
+import {
+  Button,
+  Dialog,
+  IconButton,
+  DialogTitle as MuiDialogTitle,
+  DialogContent as MuiDialogContent,
+  DialogActions as MuiDialogActions,
+  Typography,
+} from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
-import Dialog from "@material-ui/core/Dialog";
-import MuiDialogTitle from "@material-ui/core/DialogTitle";
-import MuiDialogContent from "@material-ui/core/DialogContent";
-import MuiDialogActions from "@material-ui/core/DialogActions";
-import Typography from "@material-ui/core/Typography";
-import IconButton from "@material-ui/core/IconButton";
+
+// Icons
 import CloseIcon from "@material-ui/icons/Close";
 
 const AlertModal = (props) => {
