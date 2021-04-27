@@ -24,6 +24,7 @@ import StyledForm from "../styles/StyledForm";
 const DeleteAccount = (props) => {
   const [loading, setLoading] = useState(true);
   const history = useHistory();
+  document.title = "Delete Account - BitPass";
 
   useEffect(() => {
     setLoading(false);

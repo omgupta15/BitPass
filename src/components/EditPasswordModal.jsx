@@ -116,7 +116,6 @@ const EditPasswordModal = (props) => {
 
   const onFormSubmit = (event) => {
     event.preventDefault();
-    console.log("Submitting form...");
 
     if (!title) {
       setTitleError("Title is required.");

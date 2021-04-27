@@ -32,6 +32,7 @@ const GeneratePassword = (props) => {
   const [loading, setLoading] = useState(true);
   const history = useHistory();
   const { enqueueSnackbar } = useSnackbar();
+  document.title = "Generate Password - BitPass";
 
   useEffect(() => {
     setLoading(false);

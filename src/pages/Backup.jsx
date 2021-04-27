@@ -21,6 +21,7 @@ import StyledForm from "../styles/StyledForm";
 const Backup = (props) => {
   const [loading, setLoading] = useState(true);
   const history = useHistory();
+  document.title = "Backup Account - BitPass";
 
   const [backupFileName, setBackupFileName] = useState(null);
   const [backupFileUrl, setBackupFileUrl] = useState(null);

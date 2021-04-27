@@ -22,7 +22,6 @@ import {
   VpnKey as VpnKeyIcon,
   LockRounded as LockRoundedIcon,
   AccountCircle as AccountCircleIcon,
-  NoteAddOutlined as NoteAddOutlinedIcon,
   ExitToAppRounded as ExitToAppRoundedIcon,
   AccountCircleRounded as AccountCircleRoundedIcon,
   SettingsBackupRestoreRounded as SettingsBackupRestoreRoundedIcon,
@@ -160,12 +159,6 @@ const NavBar = (props) => {
                   <LockRoundedIcon />
                 </ListItemIcon>
                 <ListItemText primary="My Passwords" />
-              </ListItem>
-              <ListItem button onClick={openLink("/notes")}>
-                <ListItemIcon>
-                  <NoteAddOutlinedIcon />
-                </ListItemIcon>
-                <ListItemText primary="My Notes" />
               </ListItem>
             </List>
             <Divider />

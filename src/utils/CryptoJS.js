@@ -6,7 +6,6 @@ class CryptoJS0 {
   };
 
   static generateVerificationHash = (data, passwordHash) => {
-    // password should be a SHA512 hash
     return this.generateSHA512(`${data}:${passwordHash}`);
   };
 
@@ -15,7 +14,7 @@ class CryptoJS0 {
       const iv = CryptoJS.lib.WordArray.random(16);
       const encrypted = CryptoJS.AES.encrypt(
         data,
-        CryptoJS.enc.Utf8.parse(passwordHash), // password should be a SHA512 hash
+        CryptoJS.enc.Utf8.parse(passwordHash),
         { iv }
       );
       const encryptedText = iv
@@ -42,7 +41,7 @@ class CryptoJS0 {
 
       const decrypted = CryptoJS.AES.decrypt(
         { ciphertext },
-        CryptoJS.enc.Utf8.parse(passwordHash), // password should be a SHA512 hash
+        CryptoJS.enc.Utf8.parse(passwordHash),
         { iv }
       );
       const decryptedText = decrypted.toString(CryptoJS.enc.Utf8);
@@ -58,7 +57,7 @@ class CryptoJS0 {
 
       return { success: true, data: decryptedText };
     } catch (e) {
-      console.log("Error while decrypting:", e);
+      // console.log("Error while decrypting:", e);
       return { success: false, error: "decryption-failed" };
     }
   };

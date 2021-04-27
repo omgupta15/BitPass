@@ -14,12 +14,13 @@ if (!lStorage.get("database")) {
   lStorage.set("database", []);
 }
 
+// To hide warnings in production
+console.warn = () => {};
+
 ReactDOM.render(
-  // <React.StrictMode>
   <Provider store={store}>
     <App />
   </Provider>,
-  // </React.StrictMode>,
   document.getElementById("root")
 );
 

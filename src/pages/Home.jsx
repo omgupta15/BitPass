@@ -44,6 +44,7 @@ import {
 const Home = (props) => {
   const history = useHistory();
   const { enqueueSnackbar } = useSnackbar();
+  document.title = "My Passwords - BitPass";
 
   const [isPasswordDialogOpen, setIsPasswordDialogOpen] = useState(false);
   const [passwordDialogTitle, setPasswordDialogTitle] = useState(null);
@@ -131,7 +132,7 @@ const Home = (props) => {
   };
 
   const onPasswordUpdateFailure = (error) => {
-    console.log("Error while updating password:", error);
+    // console.log("Error while updating password:", error);
     enqueueSnackbar("An error occurred. Please try again!", {
       variant: "error",
     });

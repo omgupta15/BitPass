@@ -17,6 +17,7 @@ import {
 
 const Profile = (props) => {
   const history = useHistory();
+  document.title = "My Profile - BitPass";
 
   return (
     <StyledProfile>

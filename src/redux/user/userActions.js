@@ -123,7 +123,7 @@ export const signUpUser = (username, password, onSuccess, onFailure) => {
     const passwordHash = CryptoJS.generateSHA512(password);
 
     const userUpdateResponse = updateUser(username, passwordHash, data);
-    console.log("User update response:", userUpdateResponse);
+    // console.log("User update response:", userUpdateResponse);
 
     if (!userUpdateResponse.success) {
       dispatch(setError("unknown-error"));
@@ -162,7 +162,7 @@ export const changePassword = (
     const newPasswordHash = generateHash(newPassword);
 
     const userUpdateResponse = updateUser(username, newPasswordHash, data.data);
-    console.log("User update response:", userUpdateResponse);
+    // console.log("User update response:", userUpdateResponse);
 
     if (!userUpdateResponse.success) {
       return onError();
@@ -180,7 +180,7 @@ export const deleteAccount = (username, onSuccess, onFailure) => {
     dispatch(startLoading());
 
     const response = deleteUser(username);
-    console.log("User update response:", response);
+    // console.log("User update response:", response);
 
     const onError = () => {
       const error = "unknown-error";
@@ -255,7 +255,7 @@ export const restoreUser = (username, password, data, onSuccess, onFailure) => {
     const passwordHash = CryptoJS.generateSHA512(password);
 
     const userUpdateResponse = updateUser(username, passwordHash, data);
-    console.log("User update response:", userUpdateResponse);
+    // console.log("User update response:", userUpdateResponse);
 
     if (!userUpdateResponse.success) {
       dispatch(setError("unknown-error"));
@@ -315,7 +315,7 @@ export const addPassword = (
       passwordHash,
       response.data
     );
-    console.log("User update response:", userUpdateResponse);
+    // console.log("User update response:", userUpdateResponse);
 
     if (!userUpdateResponse.success) {
       return onError();
@@ -360,7 +360,7 @@ export const updatePassword = (
       updatedAt: Date.now(),
     };
 
-    console.log(dataToEdit);
+    // console.log(dataToEdit);
 
     if (!Array.isArray(data.data.passwords)) {
       return onError();
@@ -377,7 +377,7 @@ export const updatePassword = (
     }
 
     const userUpdateResponse = updateUser(username, passwordHash, data.data);
-    console.log("User update response:", userUpdateResponse);
+    // console.log("User update response:", userUpdateResponse);
 
     if (!userUpdateResponse.success) {
       return onError();
@@ -423,7 +423,7 @@ export const deletePassword = (
     }
 
     const userUpdateResponse = updateUser(username, passwordHash, data.data);
-    console.log("User update response:", userUpdateResponse);
+    // console.log("User update response:", userUpdateResponse);
 
     if (!userUpdateResponse.success) {
       return onError();

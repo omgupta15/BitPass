@@ -26,6 +26,7 @@ import StyledForm from "../styles/StyledForm";
 const SignUp = (props) => {
   const [loading, setLoading] = useState(true);
   const history = useHistory();
+  document.title = "Sign Up - BitPass";
 
   useEffect(() => {
     // setLoading(false);
@@ -54,7 +55,6 @@ const SignUp = (props) => {
 
   const handleModalClose = () => {
     setModalOpen(false);
-    console.log("Modal Closed!");
 
     if (props.isLoggedIn) {
       history.push("/");
@@ -126,7 +126,6 @@ const SignUp = (props) => {
         "Sign Up Successful",
         "Your account has been successfully created! Remember that all your data is stored locally in an encrypted format and hence, there's no way to recover your password incase your forget it."
       );
-      console.log("Modal opened!");
     }
   };
 

@@ -24,6 +24,7 @@ import StyledForm from "../styles/StyledForm";
 const Login = (props) => {
   const [loading, setLoading] = useState(true);
   const history = useHistory();
+  document.title = "Login - BitPass";
 
   useEffect(() => {
     // setLoading(false);

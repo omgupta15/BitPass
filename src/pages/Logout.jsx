@@ -7,6 +7,7 @@ import { logout } from "../redux/user/userActions";
 
 const Logout = (props) => {
   const history = useHistory();
+  document.title = "Logging out...";
 
   useEffect(() => {
     sessionStorage.removeItem("username");

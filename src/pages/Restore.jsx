@@ -32,6 +32,7 @@ import StyledForm from "../styles/StyledForm";
 const Restore = (props) => {
   const [loading, setLoading] = useState(true);
   const history = useHistory();
+  document.title = "Restore Account - BitPass";
 
   useEffect(() => {
     // setLoading(false);
@@ -255,7 +256,7 @@ const Restore = (props) => {
                 disableUnderline
                 disabled={loading || backupFileData.data}
               />
-              <p class="helper-text MuiFormHelperText-root MuiFormHelperText-contained">
+              <p className="helper-text MuiFormHelperText-root MuiFormHelperText-contained">
                 {loading ? (
                   "Checking the backup file..."
                 ) : backupFileData.data ? (
