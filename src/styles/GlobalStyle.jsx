@@ -16,15 +16,33 @@ const GlobalStyle = createGlobalStyle`
     outline: none;
   }
 
+  /* Scrollbar */
+  ::-webkit-scrollbar {
+    width: 9px;
+  }
+
+  ::-webkit-scrollbar-track {
+    /* background: #f1f1f1; */
+    background: transparent;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 1rem;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+  }
+
   .App {
     height: 100vh;
     overflow: auto;
+    overflow-x: hidden;
     background: linear-gradient(135deg, #6f00ff, #11ff60);
     background-size: 250% 250%;
 
-    /*
     animation: BackgroundAnimation 25s ease infinite;
-    */
   }
 
   @keyframes BackgroundAnimation {

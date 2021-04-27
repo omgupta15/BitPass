@@ -9,6 +9,7 @@ import GlobalStyle from "./styles/GlobalStyle";
 // Pages
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
+import GeneratePassword from "./pages/GeneratePassword";
 import ChangePassword from "./pages/ChangePassword";
 import Backup from "./pages/Backup";
 import DeleteAccount from "./pages/DeleteAccount";
@@ -59,6 +60,9 @@ const App = (props) => {
                   >
                     <Profile />
                   </div>
+                </Route>
+                <Route path="/generate" exact>
+                  <GeneratePassword />
                 </Route>
                 <Route path="/backup" exact>
                   <Backup />

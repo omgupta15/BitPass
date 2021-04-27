@@ -6,7 +6,7 @@ const StyledForm = styled.form`
   align-items: center;
   flex-direction: column;
 
-  height: 100vh;
+  min-height: calc(100vh - 4rem);
   width: 100vw;
 
   .logo {
@@ -18,6 +18,8 @@ const StyledForm = styled.form`
       width: 100%;
     }
   }
+
+  margin: 2rem 0;
 
   .form {
     /* height: 30rem; */
@@ -85,6 +87,12 @@ const StyledForm = styled.form`
     .title {
       font-size: 2.1rem;
       font-weight: 500;
+    }
+
+    @media all and (max-width: 600px) {
+      .title {
+        font-size: 1.75rem;
+      }
     }
 
     .form-fields-container {
