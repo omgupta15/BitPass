@@ -1,7 +1,7 @@
 {
   "short_name": "BitPass",
   "name": "BitPass - Store your Passwords securely",
-  "description": "BitPass helps you save your passwords locally and securely but encrypting them using AES-256 Bit Encryption.",
+  "description": "BitPass is a password manager that saves your passwords locally and securely by encrypting them using AES-256 bit encryption. Your data can never be decrypted and accessed without the master password that you set.",
   "icons": [
     {
       "src": "/img/icons/logo72.png",
