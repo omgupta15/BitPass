@@ -91,19 +91,7 @@ const EditPasswordModal = (props) => {
     if (function_ === setWebsiteUrl) {
       return (event) => {
         if (websiteUrlError) setWebsiteUrlError(null);
-
-        let input = event.target.value;
-        // if (
-        //   input &&
-        //   // check if user pressed backspace
-        //   event.nativeEvent.inputType !== "deleteContentBackward" &&
-        //   !input.startsWith("http://") &&
-        //   !input.startsWith("https://")
-        // ) {
-        //   input = `http://${input}`;
-        // }
-
-        function_(input.slice(0, 1000));
+        function_(event.target.value.slice(0, 1000));
       };
     }
 

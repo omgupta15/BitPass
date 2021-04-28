@@ -1,6 +1,6 @@
 import CryptoJS from "crypto-js";
 
-class CryptoJS0 {
+class CustomCryptoJS {
   static generateSHA512 = (text) => {
     return CryptoJS.SHA512(text).toString();
   };
@@ -63,4 +63,4 @@ class CryptoJS0 {
   };
 }
 
-export default CryptoJS0;
+export default CustomCryptoJS;

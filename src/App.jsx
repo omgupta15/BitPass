@@ -22,6 +22,11 @@ import Logout from "./pages/Logout";
 import SideBar from "./components/SideBar";
 
 const App = (props) => {
+  const contentContainerStyle = {
+    minHeight: "calc(100vh - 64px)",
+    backgroundColor: "white",
+  };
+
   return (
     <SnackbarProvider maxSnack={1} autoHideDuration={1000}>
       <Router>
@@ -41,23 +46,13 @@ const App = (props) => {
               <>
                 <Route path="/" exact>
                   <SideBar />
-                  <div
-                    style={{
-                      minHeight: "calc(100vh - 64px)",
-                      backgroundColor: "white",
-                    }}
-                  >
+                  <div style={contentContainerStyle}>
                     <Home />
                   </div>
                 </Route>
                 <Route path="/profile" exact>
                   <SideBar />
-                  <div
-                    style={{
-                      minHeight: "calc(100vh - 64px)",
-                      backgroundColor: "white",
-                    }}
-                  >
+                  <div style={contentContainerStyle}>
                     <Profile />
                   </div>
                 </Route>
