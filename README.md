@@ -22,9 +22,9 @@ Website URL: https://bitpass.om.codes/
 * Automatic logout when the tab is closed.
 
 ## Technologies Used
-* <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original.svg" alt="" width="16" height="16" /> [ReactJS](https://reactjs.org/ "ReactJS Website")
-* <img src="https://user-images.githubusercontent.com/36772158/116421055-24a23580-a85c-11eb-8126-1ec76330f699.png" alt="" width="16" height="16" /> [React Router DOM](https://reactrouter.com/ "React Router DOM Website")
-* <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/redux/redux-original.svg" alt="" width="16" height="16" /> [Redux](https://redux.js.org/ "Redux Website")
-* <img src="https://user-images.githubusercontent.com/36772158/116421503-85ca0900-a85c-11eb-88df-f1f8c9b3d1a0.png" alt="" width="16" height="16" /> [Styled Components](https://styled-components.com/ "styled-components Website")
-* <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/materialui/materialui-original.svg" alt="" width="16" height="16" /> [Material-UI](http://material-ui.com/ "Material-UI Website")
-* <img src="https://user-images.githubusercontent.com/36772158/116421814-ce81c200-a85c-11eb-85f8-d46d8ff33354.png" alt="" width="16" height="16" /> [CryptoJS](https://github.com/brix/crypto-js "CryptoJS Repository")
+* [<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original.svg" alt="" width="16" height="16" /> ReactJS](https://reactjs.org/ "ReactJS Website")
+* [<img src="https://user-images.githubusercontent.com/36772158/116421055-24a23580-a85c-11eb-8126-1ec76330f699.png" alt="" width="16" height="16" /> React Router DOM](https://reactrouter.com/ "React Router DOM Website")
+* [<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/redux/redux-original.svg" alt="" width="16" height="16" /> Redux](https://redux.js.org/ "Redux Website")
+* [<img src="https://user-images.githubusercontent.com/36772158/116421503-85ca0900-a85c-11eb-88df-f1f8c9b3d1a0.png" alt="" width="16" height="16" /> Styled Components](https://styled-components.com/ "styled-components Website")
+* [<img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/materialui/materialui-original.svg" alt="" width="16" height="16" /> Material-UI](http://material-ui.com/ "Material-UI Website")
+* [<img src="https://user-images.githubusercontent.com/36772158/116421814-ce81c200-a85c-11eb-85f8-d46d8ff33354.png" alt="" width="16" height="16" /> CryptoJS](https://github.com/brix/crypto-js "CryptoJS Repository")
