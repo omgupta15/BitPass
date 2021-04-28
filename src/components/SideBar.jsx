@@ -89,7 +89,11 @@ const NavBar = (props) => {
               onClick={openLink("/")}
               style={{ cursor: "pointer", ...flexGrowStyle }}
             >
-              <img src="/logo-text.png" style={{ height: "2.5rem" }} alt="" />
+              <img
+                src="/img/logo-text.png"
+                style={{ height: "2.5rem" }}
+                alt=""
+              />
             </div>
 
             <div>

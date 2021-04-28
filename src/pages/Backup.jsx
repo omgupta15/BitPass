@@ -59,7 +59,7 @@ const Backup = (props) => {
   return (
     <StyledForm onSubmit={onFormSubmit}>
       <div className="logo">
-        <img src="/logo-text.png" alt="BitPass" />
+        <img src="/img/logo-text.png" alt="BitPass" />
       </div>
       <div className="form">
         <div className="title">Backup Account</div>

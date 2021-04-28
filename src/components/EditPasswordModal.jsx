@@ -68,6 +68,8 @@ const EditPasswordModal = (props) => {
     props.setOpen(false);
   };
 
+  const [readOnly, setReadOnly] = useState(true);
+
   const { details } = props;
   const [title, setTitle] = useState(details.title || "");
   const [websiteUrl, setWebsiteUrl] = useState(details.websiteUrl || "");
@@ -176,6 +178,12 @@ const EditPasswordModal = (props) => {
         </AppBar>
 
         <FormContainer onSubmit={onFormSubmit}>
+          {/* To avoid auto-filling by chrome
+          <input type="text" name="username"  />
+          <input type="text" name="email"  />
+          <input type="email" name="email"  />
+          <input type="password" name="password"  /> */}
+
           <TextField
             label="Title"
             className="form-field-input"
@@ -240,7 +248,10 @@ const EditPasswordModal = (props) => {
                   <MailOutlineIcon />
                 </InputAdornment>
               ),
+              readOnly: readOnly, // to prevent autofilling of username password of user
             }}
+            onFocus={() => setReadOnly(false)}
+            onBlur={() => setReadOnly(true)}
             value={email}
             onChange={createInputHandlerCallback(setEmail)}
             disabled={loading}

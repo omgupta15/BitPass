@@ -2,16 +2,34 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/logo.png" />
+    <link rel="icon" href="/img/logo.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
+    <meta name="theme-color" content="#486ABD" />
+
     <meta
       name="description"
-      content="Web site created using create-react-app"
+      content="BitPass helps you save your passwords locally and securely by encrypting them using AES-256 Bit Encryption."
     />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo.png" />
 
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://bitpass.om.codes/" />
+    <meta
+      property="og:title"
+      content="BitPass - Store your Passwords securely"
+    />
+    <meta
+      name="og:description"
+      content="BitPass helps you save your passwords locally and securely by encrypting them using AES-256 Bit Encryption."
+    />
+    <meta property="og:image" content="https://bitpass.om.codes/img/logo.png" />
+
+    <link rel="icon" href="/img/logo.png" type="image/png" />
+
+    <!-- ios support -->
+    <link rel="apple-touch-icon" href="/img/logo.png" />
+    <meta name="apple-mobile-web-app-status-bar" content="#486ABD" />
+
+    <link rel="manifest" href="/manifest.json" />
 
     <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link
@@ -20,9 +38,152 @@
     />
 
     <title>BitPass - Store your Passwords securely</title>
+
+    <style>
+      body {
+        margin: 0;
+      }
+      #loading {
+        height: 100vh;
+        width: 100vw;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        background: linear-gradient(135deg, #6f00ff, #11ff60);
+        background-size: 250% 250%;
+
+        animation: BackgroundAnimation 25s ease infinite;
+      }
+
+      @keyframes BackgroundAnimation {
+        0% {
+          background-position: 0% 49%;
+        }
+        50% {
+          background-position: 100% 52%;
+        }
+        100% {
+          background-position: 0% 49%;
+        }
+      }
+
+      #loading > span {
+        margin-top: 1rem;
+        display: inline-block;
+        font-size: 1.5rem;
+        font-family: sans-serif;
+        color: #fff;
+      }
+      .lds-default {
+        display: inline-block;
+        position: relative;
+        width: 80px;
+        height: 80px;
+      }
+      .lds-default div {
+        position: absolute;
+        width: 6px;
+        height: 6px;
+        background: #fff;
+        border-radius: 50%;
+        animation: lds-default 0.6s linear infinite;
+      }
+      .lds-default div:nth-child(1) {
+        animation-delay: 0s;
+        top: 37px;
+        left: 66px;
+      }
+      .lds-default div:nth-child(2) {
+        animation-delay: -0.05s;
+        top: 22px;
+        left: 62px;
+      }
+      .lds-default div:nth-child(3) {
+        animation-delay: -0.1s;
+        top: 11px;
+        left: 52px;
+      }
+      .lds-default div:nth-child(4) {
+        animation-delay: -0.15s;
+        top: 7px;
+        left: 37px;
+      }
+      .lds-default div:nth-child(5) {
+        animation-delay: -0.2s;
+        top: 11px;
+        left: 22px;
+      }
+      .lds-default div:nth-child(6) {
+        animation-delay: -0.25s;
+        top: 22px;
+        left: 11px;
+      }
+      .lds-default div:nth-child(7) {
+        animation-delay: -0.3s;
+        top: 37px;
+        left: 7px;
+      }
+      .lds-default div:nth-child(8) {
+        animation-delay: -0.35s;
+        top: 52px;
+        left: 11px;
+      }
+      .lds-default div:nth-child(9) {
+        animation-delay: -0.4s;
+        top: 62px;
+        left: 22px;
+      }
+      .lds-default div:nth-child(10) {
+        animation-delay: -0.45s;
+        top: 66px;
+        left: 37px;
+      }
+      .lds-default div:nth-child(11) {
+        animation-delay: -0.5s;
+        top: 62px;
+        left: 52px;
+      }
+      .lds-default div:nth-child(12) {
+        animation-delay: -0.55s;
+        top: 52px;
+        left: 62px;
+      }
+      @keyframes lds-default {
+        0%,
+        20%,
+        80%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.5);
+        }
+      }
+    </style>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
+    <div id="root">
+      <div id="loading">
+        <div class="lds-default">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+        <span>Starting the app...</span>
+      </div>
+    </div>
   </body>
 </html>
