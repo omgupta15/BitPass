@@ -23,7 +23,7 @@ Website URL: https://bitpass.om.codes/
 - Option to change master password.
 - Backup and Restore data in an encrypted format.
 - Automatic logout when the tab is closed.
-- Works offline when installed as a progessive web app.
+- Works offline when installed as a progressive web app.
 
 ## Technologies Used
 
