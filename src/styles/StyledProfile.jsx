@@ -56,20 +56,22 @@ const StyledProfile = styled.div`
     }
   }
 
+  /* custom colors for material ui buttons */
+
   .success-button {
     background-color: #43a047;
-  }
 
-  .success-button:hover {
-    background-color: #1ab322;
+    &:hover {
+      background-color: #1ab322;
+    }
   }
 
   .danger-button {
     background-color: #ff3333;
-  }
 
-  .danger-button:hover {
-    background-color: #ff1212;
+    &:hover {
+      background-color: #ff1212;
+    }
   }
 `;
 

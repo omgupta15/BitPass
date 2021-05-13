@@ -28,6 +28,7 @@ const App = (props) => {
   };
 
   return (
+    // snackbar to show alerts
     <SnackbarProvider maxSnack={1} autoHideDuration={1000}>
       <Router>
         <div className="App">
@@ -42,6 +43,7 @@ const App = (props) => {
             <Route path="/restore" exact>
               <Restore />
             </Route>
+
             {props.isLoggedIn ? (
               <>
                 <Route path="/" exact>

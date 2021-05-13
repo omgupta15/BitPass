@@ -12,6 +12,7 @@ import store from "./redux/store";
 import lStorage from "local-storage-json";
 
 if (!lStorage.get("database")) {
+  // creating empty array for database in localstorage if it doesn't exist
   lStorage.set("database", []);
 }
 

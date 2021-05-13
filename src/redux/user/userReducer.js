@@ -19,12 +19,15 @@ const reducer = (state = initialState, action) => {
         ...state,
         loading: action.payload,
       };
+
     case _.SET_ERROR:
       return {
         ...state,
         loading: false,
         error: action.payload,
       };
+
+    // setting the user details when user logs in
     case _.SET_USER:
       return {
         ...state,
@@ -38,6 +41,8 @@ const reducer = (state = initialState, action) => {
         },
         data: action.payload.data,
       };
+
+    // removing the user details from state when logged out
     case _.LOGOUT:
       return {
         ...state,
@@ -51,6 +56,7 @@ const reducer = (state = initialState, action) => {
         },
         data: null,
       };
+
     default:
       return state;
   }

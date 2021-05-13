@@ -166,12 +166,6 @@ const EditPasswordModal = (props) => {
         </AppBar>
 
         <FormContainer onSubmit={onFormSubmit}>
-          {/* To avoid auto-filling by chrome
-          <input type="text" name="username"  />
-          <input type="text" name="email"  />
-          <input type="email" name="email"  />
-          <input type="password" name="password"  /> */}
-
           <TextField
             label="Title"
             className="form-field-input"

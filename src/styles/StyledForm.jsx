@@ -2,10 +2,15 @@ import styled from "styled-components";
 
 const StyledForm = styled.form`
   display: flex;
+
+  /* to display in the center of the screen */
   justify-content: center;
   align-items: center;
+
+  /* to show logo above the form */
   flex-direction: column;
 
+  /* to keep some top and bottom margin on smaller devices */
   min-height: calc(100vh - 4rem);
   width: 100vw;
 
@@ -19,6 +24,7 @@ const StyledForm = styled.form`
     }
   }
 
+  /* top and bottom margin for smaller devices */
   margin: 2rem 0;
 
   .form {

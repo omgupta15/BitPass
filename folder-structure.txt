@@ -1,0 +1,37 @@
+.
+├── src
+│   ├── App.jsx
+│   ├── index.js
+│   ├── reportWebVitals.js
+│   ├── service-worker.js
+│   ├── serviceWorkerRegistration.js
+│   └── components
+│   │   ├── AlertModal.jsx
+│   │   ├── EditPasswordModal.jsx
+│   │   └── SideBar.jsx
+│   └── pages
+│   │   ├── Backup.jsx
+│   │   ├── ChangePassword.jsx
+│   │   ├── DeleteAccount.jsx
+│   │   ├── GeneratePassword.jsx
+│   │   ├── Home.jsx
+│   │   ├── Login.jsx
+│   │   ├── Logout.jsx
+│   │   ├── Profile.jsx
+│   │   ├── Restore.jsx
+│   │   └── SignUp.jsx
+│   └── redux
+│   │   └── user
+│   │   │   ├── userActions.js
+│   │   │   ├── userReducer.js
+│   │   │   └── userTypes.js
+│   │   ├── rootReducer.js
+│   │   └── store.js
+│   └── styles
+│   │   ├── GlobalStyle.jsx
+│   │   ├── StyledForm.jsx
+│   │   ├── StyledPasswords.jsx
+│   │   └── StyledProfile.jsx
+│   └── utils
+│       ├── index.js
+│       └── CryptoJS.js

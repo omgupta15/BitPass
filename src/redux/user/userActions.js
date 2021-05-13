@@ -10,13 +10,16 @@ import {
 } from "../../utils";
 import { v4 as uuidv4 } from "uuid";
 
+// check if user is logged in
 export const checkUserLogin = (onSuccess, onFailure) => {
   return (dispatch) => {
     dispatch(startLoading());
 
+    // getting the user details from the sessionStorage
     const username = sessionStorage.getItem("username");
     const passwordHash = sessionStorage.getItem("passwordHash");
 
+    // logging out the user
     const killSession = () => {
       dispatch(stopLoading());
       sessionStorage.removeItem("username");
@@ -24,10 +27,12 @@ export const checkUserLogin = (onSuccess, onFailure) => {
       onFailure();
     };
 
+    // if the user isn't logged in
     if (!username || !passwordHash) {
       return killSession();
     }
 
+    // decrypting the user data from details
     const response = getDecryptedData(username, passwordHash);
 
     if (!response.success) {
@@ -43,6 +48,7 @@ export const checkUserLogin = (onSuccess, onFailure) => {
       return killSession();
     }
 
+    // setting the current user in redux state
     dispatch(setUser(username, passwordHash, data));
     onSuccess();
     return;
