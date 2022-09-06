@@ -45,7 +45,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const EditPasswordModal = (props) => {
   const classes = useStyles();
   const [loading, setLoading] = useState(false);
-  const isPortait = useMediaQuery("(orientation: portrait)");
+  const isPortrait = useMediaQuery("(orientation: portrait)");
 
   useEffect(() => {
     clearTextFields();
@@ -144,7 +144,7 @@ const EditPasswordModal = (props) => {
         open={props.open}
         onClose={handleClose}
         TransitionComponent={Transition}
-        {...(isPortait ? { fullScreen: true } : {})}
+        {...(isPortrait ? { fullScreen: true } : {})}
       >
         <AppBar className={classes.appBar}>
           <Toolbar>
